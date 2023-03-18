@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+ AuthenticatedTemplate,
+ UnauthenticatedTemplate,
+ MsalProvider
+} from '@azure/msal-react';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { PublicClientApplication } from '@azure/msal-browser';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { msalConfig } from './auth/authConfig';
+
+import { Home, SignInButton } from './Pages/Home';
+import './index.css';
+
+const msalInstance = new PublicClientApplication(msalConfig);
+const queryClient = new QueryClient();
+
+const App = () => {
+ return (
+  <>
+   <MsalProvider instance={msalInstance}>
+    <AuthenticatedTemplate>
+     <QueryClientProvider client={queryClient}>
+      <Home />
+      <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
+     </QueryClientProvider>
+    </AuthenticatedTemplate>
+    <UnauthenticatedTemplate>
+     <SignInButton />
+     <div>You need to login</div>
+    </UnauthenticatedTemplate>
+   </MsalProvider>
+  </>
+ );
+};
 
 export default App;

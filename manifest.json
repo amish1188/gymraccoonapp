@@ -1,0 +1,13 @@
+{
+    "name": "Raccoon Gym",
+    "short_name": "RaccoonGym",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#BBBBBB",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "raccoon.png"
+        }
+    ]
+}
