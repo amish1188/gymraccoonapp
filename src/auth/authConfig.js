@@ -3,7 +3,7 @@ export const msalConfig = {
   clientId: '1813dd11-14f3-4fd3-a309-f3f0d78ce825',
   authority:
    'https://login.microsoftonline.com/3c8fef4a-d209-45a9-9810-18c2004dbb0d',
-  redirectUri: 'https://green-field-062c7d403.2.azurestaticapps.net'
+  redirectUri: process.env.REDIRECT_URI
  },
  cache: {
   cacheLocation: 'sessionStorage', // This configures where your cache will be stored
@@ -15,3 +15,6 @@ export const msalConfig = {
 export const loginRequest = {
  scopes: ['User.Read']
 };
+
+// process.env.REDIRECT_URI = 'https://green-field-062c7d403.2.azurestaticapps.net'
+// process.env.REDIRECT_URI = 'localhost:3000'

@@ -21,6 +21,7 @@ type DialogComponentProps = {
  currentValue: number;
  dayId: number | undefined;
  exerciseId: string | undefined;
+ errorText: string;
  setNewProgressValue: (newValue: number) => void;
 };
 
@@ -30,9 +31,11 @@ const DialogComponent = ({
  currentValue,
  setNewProgressValue,
  exerciseId,
- dayId
+ dayId,
+ errorText
 }: DialogComponentProps) => {
  const [progressValue, setProgressValue] = useState<string>('');
+ const [isFormValid, setIsFormValid] = useState<boolean>(true);
 
  useEffect(() => {
   setProgressValue(`${currentValue}`);
@@ -41,7 +44,16 @@ const DialogComponent = ({
  const onChangeCurrentProgressValue = (
   e: React.ChangeEvent<HTMLInputElement>
  ) => {
+  setIsFormValid(true);
   setProgressValue(e.target.value);
+ };
+
+ const validateAndSetNewProgressValue = (newValue: string) => {
+  if (!newValue || +newValue == 0) {
+   setIsFormValid(false);
+  } else {
+   setNewProgressValue(+newValue);
+  }
  };
 
  const checkIfNumberInput = (e: KeyboardEvent<HTMLImageElement>) => {
@@ -64,9 +76,11 @@ const DialogComponent = ({
     <DialogTitle>Set new progress</DialogTitle>
     <DialogContent>
      <TextField
+      error={!isFormValid}
       autoFocus
       onKeyPress={checkIfNumberInput}
       onChange={onChangeCurrentProgressValue}
+      helperText={isFormValid ? '' : errorText}
       id='new progress'
       value={progressValue}
      ></TextField>
@@ -80,7 +94,7 @@ const DialogComponent = ({
        Cancel
       </Button>
       <Button
-       onClick={() => setNewProgressValue(+progressValue)}
+       onClick={() => validateAndSetNewProgressValue(progressValue)}
        sx={{ width: '50%' }}
        variant='contained'
       >

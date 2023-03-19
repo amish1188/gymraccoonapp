@@ -19,6 +19,7 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
  const [exerciseId, setExerciseId] = useState<string>();
  const [currentValue, setCurrentValue] = useState<number>(0);
  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+ const errorText = 'Cannot be empty or 0';
 
  const { mutate: updateTraining } = useAddCurrentTrainingDataProgress();
 
@@ -45,7 +46,7 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
  };
 
  const setNewProgressValue = (newValue: number) => {
-  if (!trainingData) return;
+  if (!trainingData || !newValue) return;
   const trainingDataCopy = { ...trainingData };
   const dayToEditIndex = trainingDataCopy.days.findIndex(
    (day) => day.id === dayId
@@ -92,6 +93,7 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
      dayId={dayId}
      exerciseId={exerciseId}
      setNewProgressValue={setNewProgressValue}
+     errorText={errorText}
     />
    )}
   </Swiper>
