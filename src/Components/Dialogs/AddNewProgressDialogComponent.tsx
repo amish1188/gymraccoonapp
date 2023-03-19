@@ -1,12 +1,4 @@
-import React, {
- useContext,
- useEffect,
- useRef,
- useState,
- KeyboardEvent
-} from 'react';
-
-import { CurrentTrainingContext } from '../context/CurrentTrainingContext';
+import React, { useEffect, useState, KeyboardEvent } from 'react';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -15,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
-type DialogComponentProps = {
+type AddNewProgressDialogComponentProps = {
  closeDialog: () => void;
  isDialogOpen: boolean;
  currentValue: number;
@@ -25,7 +17,7 @@ type DialogComponentProps = {
  setNewProgressValue: (newValue: number) => void;
 };
 
-const DialogComponent = ({
+const AddNewProgressDialogComponent = ({
  isDialogOpen,
  closeDialog,
  currentValue,
@@ -33,7 +25,7 @@ const DialogComponent = ({
  exerciseId,
  dayId,
  errorText
-}: DialogComponentProps) => {
+}: AddNewProgressDialogComponentProps) => {
  const [progressValue, setProgressValue] = useState<string>('');
  const [isFormValid, setIsFormValid] = useState<boolean>(true);
 
@@ -107,4 +99,4 @@ const DialogComponent = ({
  );
 };
 
-export default DialogComponent;
+export default AddNewProgressDialogComponent;
