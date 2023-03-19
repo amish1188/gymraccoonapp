@@ -2,11 +2,14 @@ import { TrainingDay } from '../../context/CurrentTrainingContext';
 import { Grid } from '@mui/material';
 import ExerciseAccordion from '../ExerciseAccordion';
 import { useState } from 'react';
-import { SwiperComponentProps } from './Swiper';
-import DialogComponent from '../Dialog';
 
 interface DaySlideProps {
- openDialog: (dayId: number, exerciseId: string, current: number) => void;
+ openDialog: (
+  dayId: number,
+  exerciseId: string,
+  dialogId: string,
+  current?: number
+ ) => void;
  day: TrainingDay;
  setNewProgressValue: (newValue: number) => void;
 }

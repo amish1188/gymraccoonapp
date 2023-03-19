@@ -1,14 +1,12 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {
- CurrentTrainingContext,
- Training
-} from '../../context/CurrentTrainingContext';
+import { Training } from '../../context/CurrentTrainingContext';
 import 'swiper/css';
 import './Slider.scss';
 import DaySlide from './DaySlide';
-import { useContext, useState } from 'react';
-import DialogComponent from '../Dialog';
+import { useState } from 'react';
+import AddNewProgressDialogComponent from '../Dialogs/AddNewProgressDialogComponent';
 import { useAddCurrentTrainingDataProgress } from '../../queryHooks/useCurrentTrainingData';
+import AddNewCommentDialog from '../Dialogs/AddNewCommentDialog';
 
 export interface SwiperComponentProps {
  trainingData: Training;
@@ -18,21 +16,31 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
  const [dayId, setDayId] = useState<number>();
  const [exerciseId, setExerciseId] = useState<string>();
  const [currentValue, setCurrentValue] = useState<number>(0);
- const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+ const [isAddNewProgressDialogOpened, setIsAddNewProgressDialogOpened] =
+  useState<boolean>(false);
+ const [isAddNewCommentDialogOpened, setIsAddNewCommentDialogOpened] =
+  useState<boolean>(false);
  const errorText = 'Cannot be empty or 0';
+ const emptyStringErrorText = 'Cannot be empty';
 
  const { mutate: updateTraining } = useAddCurrentTrainingDataProgress();
 
- const openDialog = (dayId: number, exerciseId: string, current: number) => {
-  if (!current) return;
+ const openDialog = (
+  dayId: number,
+  exerciseId: string,
+  dialogId: string,
+  current?: number
+ ) => {
   setDayId(dayId);
-  setCurrentValue(+current);
+  current && setCurrentValue(+current);
   setExerciseId(exerciseId);
-  setIsDialogOpen(true);
+  dialogId == 'newProgressDialog' && setIsAddNewProgressDialogOpened(true);
+  dialogId == 'newCommentDialog' && setIsAddNewCommentDialogOpened(true);
  };
 
  const closeDialog = () => {
-  setIsDialogOpen(false);
+  setIsAddNewProgressDialogOpened(false);
+  setIsAddNewCommentDialogOpened(false);
  };
 
  const progressArrayRemoveDuplicates = (progress: number[]): number[] => {
@@ -64,15 +72,23 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
   closeDialog();
  };
 
- /* {dayId && exerciseId && currentValue ? (
-    <DialogComponent
-     dayId={dayId}
-     exerciseId={exerciseId}
-     currentValue={currentValue}
-     isDialogOpen={isDialogOpen}
-     closeDialog={closeDialog}
-    />
-   ) : null}*/
+ const setNewComment = (newComment: string) => {
+  if (!trainingData || !newComment) return;
+  const trainingDataCopy = { ...trainingData };
+  const dayToEditIndex = trainingDataCopy.days.findIndex(
+   (day) => day.id === dayId
+  );
+  const exerciseIndex = trainingData.days[dayToEditIndex].exercises.findIndex(
+   (e) => e.id === exerciseId
+  );
+  const commentsCopy =
+   trainingDataCopy.days[dayToEditIndex].exercises[exerciseIndex].comments;
+  commentsCopy.push(newComment);
+  trainingDataCopy.days[dayToEditIndex].exercises[exerciseIndex].comments =
+   commentsCopy;
+  updateTraining(trainingDataCopy);
+  closeDialog();
+ };
 
  return (
   <Swiper centeredSlides={false} noSwipingClass='noSwap' className='mySwiper'>
@@ -85,15 +101,23 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
      ></DaySlide>
     </SwiperSlide>
    ))}
-   {isDialogOpen && (
-    <DialogComponent
+   {isAddNewProgressDialogOpened && (
+    <AddNewProgressDialogComponent
      closeDialog={closeDialog}
-     isDialogOpen={isDialogOpen}
+     isDialogOpen={isAddNewProgressDialogOpened}
      currentValue={currentValue}
      dayId={dayId}
      exerciseId={exerciseId}
      setNewProgressValue={setNewProgressValue}
      errorText={errorText}
+    />
+   )}
+   {isAddNewCommentDialogOpened && (
+    <AddNewCommentDialog
+     closeDialog={closeDialog}
+     isDialogOpen={isAddNewCommentDialogOpened}
+     setNewCommentValue={setNewComment}
+     errorText={emptyStringErrorText}
     />
    )}
   </Swiper>

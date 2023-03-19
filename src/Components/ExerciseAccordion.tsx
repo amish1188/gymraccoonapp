@@ -1,4 +1,4 @@
-import { Accordion, Grid } from '@mui/material';
+import { Accordion, Button, Grid } from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
@@ -16,7 +16,12 @@ interface ExerciseAccordionProps {
  expanded: string | null;
  setExpandedExercise: (id: string) => void;
  children?: React.ReactNode;
- openDialog: (dayId: number, exerciseId: string, current: number) => void;
+ openDialog: (
+  dayId: number,
+  exerciseId: string,
+  dialogId: string,
+  current?: number
+ ) => void;
 }
 
 const ExerciseAccordion = ({
@@ -52,7 +57,7 @@ const ExerciseAccordion = ({
      {sets + 'x' + reps}
     </Typography>
     <Typography
-     onClick={() => openDialog(dayId, id, currentProgress)}
+     onClick={() => openDialog(dayId, id, 'newProgressDialog', currentProgress)}
      sx={{ width: '15%', textAlign: 'end' }}
     >
      {currentProgress}
@@ -70,12 +75,24 @@ const ExerciseAccordion = ({
        </Grid>
       ))}
      </Grid>
-     <Grid item>
+     <Grid
+      item
+      container
+      direction='row'
+      alignItems='center'
+      justifyContent='space-between'
+     >
       <p>Comments:</p>
+      <Button
+       variant='text'
+       onClick={() => openDialog(dayId, id, 'newCommentDialog')}
+      >
+       + Add comment
+      </Button>
      </Grid>
      <Grid item container>
       {exercise.comments.map((c, i) => (
-       <Grid key={i} item>
+       <Grid key={i} item container>
         <q>{c}</q>
        </Grid>
       ))}
