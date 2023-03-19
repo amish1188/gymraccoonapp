@@ -19,19 +19,18 @@ const App = () => {
  return (
   <>
    <MsalProvider instance={msalInstance}>
-    <AuthenticatedTemplate>
-     <QueryClientProvider client={queryClient}>
-      <Home />
-      <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
-     </QueryClientProvider>
-    </AuthenticatedTemplate>
-    <UnauthenticatedTemplate>
-     <SignInButton />
-     <div>You need to login</div>
-    </UnauthenticatedTemplate>
+    <QueryClientProvider client={queryClient}>
+     <Home />
+     <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
+    </QueryClientProvider>
    </MsalProvider>
   </>
  );
 };
+
+/* <UnauthenticatedTemplate>
+     <SignInButton />
+     <div>You need to login</div>
+    </UnauthenticatedTemplate> */
 
 export default App;
