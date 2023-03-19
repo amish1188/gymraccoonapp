@@ -3,7 +3,7 @@ export const msalConfig = {
   clientId: '1813dd11-14f3-4fd3-a309-f3f0d78ce825',
   authority:
    'https://login.microsoftonline.com/3c8fef4a-d209-45a9-9810-18c2004dbb0d',
-  redirectUri: 'https://gymraccoonapp.azurewebsites.net/'
+  redirectUri: 'https://green-field-062c7d403.2.azurestaticapps.net'
  },
  cache: {
   cacheLocation: 'sessionStorage', // This configures where your cache will be stored
