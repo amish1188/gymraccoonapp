@@ -12,7 +12,7 @@ module.exports = {
      loader: 'ts-loader',
      options: {
       compilerOptions: {
-       noEmit: false // this option will solve the issue
+       noEmit: false
       }
      }
     },
