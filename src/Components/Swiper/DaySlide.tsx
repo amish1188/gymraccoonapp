@@ -26,7 +26,13 @@ const DaySlide = ({ openDialog, day }: DaySlideProps) => {
  };
 
  return (
-  <Grid className='noSwipe' container justifyContent='center' spacing={0}>
+  <Grid
+   className='noSwipe'
+   container
+   justifyContent='center'
+   style={{ maxWidth: '700px', margin: 'auto' }}
+   spacing={0}
+  >
    <Grid container direction='column' alignItems='center' item xs={10}>
     <h1>{day.name}</h1>
     {day.exercises.map((exercise) => (

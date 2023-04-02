@@ -38,7 +38,7 @@ const AddNewCommentDialog = ({
  return (
   <>
    <Dialog onClose={closeDialog} open={isDialogOpen}>
-    <DialogTitle>Add new comment</DialogTitle>
+    <DialogTitle>Add new commen</DialogTitle>
     <DialogContent>
      <TextField
       error={!isFormValid}
