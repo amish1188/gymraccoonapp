@@ -2,7 +2,8 @@ export const msalConfig = {
  auth: {
   clientId: process.env.REACT_APP_CLIENT_ID as string,
   authority: process.env.REACT_APP_AUTHORITY as string,
-  redirectUri: 'http://localhost:3000'
+  redirectUri: process.env.REACT_APP_REDIRECT_URI
+  // 'http://localhost:3000'
  },
  cache: {
   cacheLocation: 'sessionStorage', // This configures where your cache will be stored
