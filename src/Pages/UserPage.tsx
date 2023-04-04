@@ -6,7 +6,6 @@ import {
 import { Button, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { loginRequest } from '../auth/authConfig';
-import Grid2 from '@mui/material/Unstable_Grid2';
 
 export const SignInButton = () => {
  const { instance } = useMsal();
@@ -26,7 +25,7 @@ export const SignOutButton = () => {
  const handlLogout = async () => {
   await instance
    .logoutRedirect({
-    postLogoutRedirectUri: 'http://localhost:3000'
+    postLogoutRedirectUri: process.env.REACT_APP_REDIRECT_URI
    })
    .then((v) => console.log(v))
    .catch((e: any) => {
