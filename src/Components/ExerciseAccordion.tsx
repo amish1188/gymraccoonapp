@@ -1,4 +1,4 @@
-import { Accordion, Button, Grid } from '@mui/material';
+import { Accordion, Grid } from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
@@ -87,10 +87,8 @@ const ExerciseAccordion = ({
      >
       <CommentSection
        comments={comments}
-       exerciseId={exercise.id}
        dayIndex={dayIndex}
        exerciseIndex={exerciseIndex}
-       dayId={dayId}
        id={id}
       />
      </Grid>

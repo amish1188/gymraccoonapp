@@ -24,19 +24,22 @@ const Comment = ({
  };
 
  const openDialogWithIndex = () => {
-  console.log('current', commentIndex);
   openDialog(comment, commentIndex);
  };
 
  return (
   <div onClick={showEditHandler} className='comment'>
+   <p>{comment}</p>
    {issShowEdit && (
-    <div className='comment-button-wrapper'>
-     <EditIcon onClick={openDialogWithIndex} />
-     <DeleteIcon onClick={() => deleteComment(commentIndex)} color='error' />
+    <div className='button-section-container'>
+     <button className='button'>
+      <EditIcon onClick={openDialogWithIndex} />
+     </button>
+     <button className='button'>
+      <DeleteIcon onClick={() => deleteComment(commentIndex)} color='error' />
+     </button>
     </div>
    )}
-   <p>{comment}</p>
   </div>
  );
 };
