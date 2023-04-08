@@ -38,7 +38,7 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
  const [currentValue, setCurrentValue] = useState<number>(0);
  const [isAddNewProgressDialogOpened, setIsAddNewProgressDialogOpened] =
   useState<boolean>(false);
- const errorText = 'Cannot be empty or 0';
+ const errorText = 'Cannot be empty or 0 or';
 
  const { mutate: updateTraining } = useUpdateTraining();
 
