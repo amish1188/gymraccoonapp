@@ -14,7 +14,11 @@ import NavigationBar from './Components/NavigationBar';
 
 const msalInstance = new PublicClientApplication(msalConfig);
 const queryClient = new QueryClient({
- defaultOptions: {}
+ defaultOptions: {
+  queries: {
+   refetchOnWindowFocus: false
+  }
+ }
 });
 
 const Trainings = () => <div>Trainings</div>;
