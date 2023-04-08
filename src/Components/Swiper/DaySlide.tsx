@@ -1,20 +1,20 @@
-import { TrainingDay } from '../../context/CurrentTrainingContext';
 import { Grid } from '@mui/material';
 import ExerciseAccordion from '../ExerciseAccordion';
 import { useState } from 'react';
+import { TrainingDay } from './Swiper';
 
 interface DaySlideProps {
  openDialog: (
-  dayId: number,
+  dayId: string,
   exerciseId: string,
   dialogId: string,
   current?: number
  ) => void;
  day: TrainingDay;
- setNewProgressValue: (newValue: number) => void;
+ dayIndex: number;
 }
 
-const DaySlide = ({ openDialog, day }: DaySlideProps) => {
+const DaySlide = ({ openDialog, day, dayIndex }: DaySlideProps) => {
  const [expanded, setExpanded] = useState<string | null>(null);
 
  const setExpandedExercise = (id: string) => {
@@ -35,10 +35,12 @@ const DaySlide = ({ openDialog, day }: DaySlideProps) => {
   >
    <Grid container direction='column' alignItems='center' item xs={10}>
     <h1>{day.name}</h1>
-    {day.exercises.map((exercise) => (
+    {day.exercises.map((exercise, index) => (
      <ExerciseAccordion
       dayId={day.id}
+      dayIndex={dayIndex}
       exercise={exercise}
+      exerciseIndex={index}
       setExpandedExercise={setExpandedExercise}
       expanded={expanded}
       key={exercise.id}

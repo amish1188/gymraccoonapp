@@ -13,7 +13,9 @@ import ProtectedRoute from './Components/ProtectedRoute';
 import NavigationBar from './Components/NavigationBar';
 
 const msalInstance = new PublicClientApplication(msalConfig);
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+ defaultOptions: {}
+});
 
 const Trainings = () => <div>Trainings</div>;
 

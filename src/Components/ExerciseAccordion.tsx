@@ -3,21 +3,22 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useContext, useEffect, useState } from 'react';
-import {
- CurrentTrainingContext,
- Exercise
-} from '../context/CurrentTrainingContext';
-import { SwiperComponentProps } from './Swiper/Swiper';
+
+import { useEffect, useState } from 'react';
+
+import CommentSection from './Comments/CommentSection';
+import { Exercise } from './Swiper/Swiper';
 
 interface ExerciseAccordionProps {
  exercise: Exercise;
- dayId: number;
+ exerciseIndex: number;
+ dayId: string;
+ dayIndex: number;
  expanded: string | null;
  setExpandedExercise: (id: string) => void;
  children?: React.ReactNode;
  openDialog: (
-  dayId: number,
+  dayId: string,
   exerciseId: string,
   dialogId: string,
   current?: number
@@ -27,12 +28,14 @@ interface ExerciseAccordionProps {
 const ExerciseAccordion = ({
  expanded,
  dayId,
+ dayIndex,
  setExpandedExercise,
  openDialog,
  exercise,
+ exerciseIndex,
  children
 }: ExerciseAccordionProps) => {
- const { id, name, sets, reps, progress } = exercise;
+ const { id, name, sets, reps, progress, comments } = exercise;
  // since i have id of the current exercise i need to fetch data here
 
  const [currentProgress, setCurrentProgress] = useState<number>(0);
@@ -82,20 +85,14 @@ const ExerciseAccordion = ({
       alignItems='center'
       justifyContent='space-between'
      >
-      <p>Comments:</p>
-      <Button
-       variant='text'
-       onClick={() => openDialog(dayId, id, 'newCommentDialog')}
-      >
-       + Add comment
-      </Button>
-     </Grid>
-     <Grid item container>
-      {exercise.comments.map((c, i) => (
-       <Grid key={i} item container>
-        <q>{c}</q>
-       </Grid>
-      ))}
+      <CommentSection
+       comments={comments}
+       exerciseId={exercise.id}
+       dayIndex={dayIndex}
+       exerciseIndex={exerciseIndex}
+       dayId={dayId}
+       id={id}
+      />
      </Grid>
     </Grid>
    </AccordionDetails>

@@ -1,19 +1,40 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Training } from '../../context/CurrentTrainingContext';
 import 'swiper/css';
 import './Slider.scss';
 import DaySlide from './DaySlide';
 import { useState } from 'react';
 import AddNewProgressDialogComponent from '../Dialogs/AddNewProgressDialogComponent';
-import { useAddCurrentTrainingDataProgress } from '../../queryHooks/useCurrentTrainingData';
+import { useUpdateTraining } from '../../queryHooks/useCurrentTrainingData';
 import AddNewCommentDialog from '../Dialogs/AddNewCommentDialog';
 
+export interface Exercise {
+ id: string;
+ name: string;
+ sets: number;
+ reps: number;
+ progress: number[];
+ comments: string[];
+}
+
+export interface TrainingDay {
+ id: string;
+ name: string;
+ exercises: Exercise[];
+}
+
+export interface Training {
+ id: string;
+ userId: string;
+ name?: string;
+ days: TrainingDay[];
+}
+
 export interface SwiperComponentProps {
- trainingData: Training;
+ trainingData: Training | undefined;
 }
 
 const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
- const [dayId, setDayId] = useState<number>();
+ const [dayId, setDayId] = useState<string>();
  const [exerciseId, setExerciseId] = useState<string>();
  const [currentValue, setCurrentValue] = useState<number>(0);
  const [isAddNewProgressDialogOpened, setIsAddNewProgressDialogOpened] =
@@ -23,10 +44,10 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
  const errorText = 'Cannot be empty or 0';
  const emptyStringErrorText = 'Cannot be empty';
 
- const { mutate: updateTraining } = useAddCurrentTrainingDataProgress();
+ const { mutate: updateTraining } = useUpdateTraining();
 
  const openDialog = (
-  dayId: number,
+  dayId: string,
   exerciseId: string,
   dialogId: string,
   current?: number
@@ -92,13 +113,9 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
 
  return (
   <Swiper centeredSlides={false} noSwipingClass='noSwap' className='mySwiper'>
-   {trainingData?.days.map((day) => (
+   {trainingData?.days.map((day, index) => (
     <SwiperSlide key={day.id} className='swiperSlide'>
-     <DaySlide
-      setNewProgressValue={setNewProgressValue}
-      openDialog={openDialog}
-      day={day}
-     ></DaySlide>
+     <DaySlide openDialog={openDialog} day={day} dayIndex={index}></DaySlide>
     </SwiperSlide>
    ))}
    {isAddNewProgressDialogOpened && (
@@ -110,14 +127,6 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
      exerciseId={exerciseId}
      setNewProgressValue={setNewProgressValue}
      errorText={errorText}
-    />
-   )}
-   {isAddNewCommentDialogOpened && (
-    <AddNewCommentDialog
-     closeDialog={closeDialog}
-     isDialogOpen={isAddNewCommentDialogOpened}
-     setNewCommentValue={setNewComment}
-     errorText={emptyStringErrorText}
     />
    )}
   </Swiper>

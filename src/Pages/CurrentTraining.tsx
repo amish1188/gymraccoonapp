@@ -1,4 +1,3 @@
-import { Button, Grid } from '@mui/material';
 import SwiperComponent from '../Components/Swiper/Swiper';
 import { useCurrentTrainingData } from '../queryHooks/useCurrentTrainingData';
 

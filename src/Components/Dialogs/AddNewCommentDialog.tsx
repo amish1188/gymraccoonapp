@@ -6,39 +6,54 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 
+// modal context open, close, get value on closing, send value if exists
+
 type AddNewCommentDialogProps = {
  closeDialog: () => void;
+ updateComment: (value: string, currentCommentIndex?: number) => void;
+ currentValue?: string;
+ currentIndex?: number;
  isDialogOpen: boolean;
  errorText: string;
- setNewCommentValue: (newValue: string) => void;
 };
 
 const AddNewCommentDialog = ({
  isDialogOpen,
  closeDialog,
- setNewCommentValue,
+ updateComment,
+ currentValue,
+ currentIndex,
  errorText
 }: AddNewCommentDialogProps) => {
- const [newComment, setNewComment] = useState<string>('');
+ const [value, setValue] = useState<string>(currentValue || '');
  const [isFormValid, setIsFormValid] = useState<boolean>(true);
 
- const validateAndSetNewProgressValue = (newValue: string) => {
-  if (!newValue) {
-   setIsFormValid(false);
-  } else {
-   setNewCommentValue(newValue);
+ console.log(currentIndex);
+ const onChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (e) {
+   setIsFormValid(true);
+   setValue(e.target.value);
   }
  };
 
- const onChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setIsFormValid(true);
-  setNewComment(e.target.value);
+ const validateValue = (): boolean => {
+  const isValid = !value ? false : true;
+  return isValid;
+ };
+
+ const validateAndSetNewProgressValue = () => {
+  const isValid = validateValue();
+  if (!isValid) {
+   setIsFormValid(false);
+   return;
+  }
+  updateComment(value, currentIndex);
  };
 
  return (
   <>
    <Dialog onClose={closeDialog} open={isDialogOpen}>
-    <DialogTitle>Add new commen</DialogTitle>
+    <DialogTitle>Add or update new comment</DialogTitle>
     <DialogContent>
      <TextField
       error={!isFormValid}
@@ -46,6 +61,9 @@ const AddNewCommentDialog = ({
       onChange={onChangeComment}
       helperText={isFormValid ? '' : errorText}
       id='new comment'
+      multiline
+      maxRows={8}
+      value={value || ''}
      ></TextField>
      <Stack
       sx={{ paddingTop: '1rem' }}
@@ -57,11 +75,11 @@ const AddNewCommentDialog = ({
        Cancel
       </Button>
       <Button
-       onClick={() => validateAndSetNewProgressValue(newComment)}
+       onClick={validateAndSetNewProgressValue}
        sx={{ width: '50%' }}
        variant='contained'
       >
-       Add
+       Ok
       </Button>
      </Stack>
     </DialogContent>
