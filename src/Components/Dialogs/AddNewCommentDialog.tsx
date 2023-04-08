@@ -28,7 +28,6 @@ const AddNewCommentDialog = ({
  const [value, setValue] = useState<string>(currentValue || '');
  const [isFormValid, setIsFormValid] = useState<boolean>(true);
 
- console.log(currentIndex);
  const onChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
   if (e) {
    setIsFormValid(true);

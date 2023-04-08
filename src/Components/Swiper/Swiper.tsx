@@ -5,7 +5,6 @@ import DaySlide from './DaySlide';
 import { useState } from 'react';
 import AddNewProgressDialogComponent from '../Dialogs/AddNewProgressDialogComponent';
 import { useUpdateTraining } from '../../queryHooks/useCurrentTrainingData';
-import AddNewCommentDialog from '../Dialogs/AddNewCommentDialog';
 
 export interface Exercise {
  id: string;
@@ -39,10 +38,7 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
  const [currentValue, setCurrentValue] = useState<number>(0);
  const [isAddNewProgressDialogOpened, setIsAddNewProgressDialogOpened] =
   useState<boolean>(false);
- const [isAddNewCommentDialogOpened, setIsAddNewCommentDialogOpened] =
-  useState<boolean>(false);
  const errorText = 'Cannot be empty or 0';
- const emptyStringErrorText = 'Cannot be empty';
 
  const { mutate: updateTraining } = useUpdateTraining();
 
@@ -56,12 +52,10 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
   current && setCurrentValue(+current);
   setExerciseId(exerciseId);
   dialogId == 'newProgressDialog' && setIsAddNewProgressDialogOpened(true);
-  dialogId == 'newCommentDialog' && setIsAddNewCommentDialogOpened(true);
  };
 
  const closeDialog = () => {
   setIsAddNewProgressDialogOpened(false);
-  setIsAddNewCommentDialogOpened(false);
  };
 
  const progressArrayRemoveDuplicates = (progress: number[]): number[] => {
@@ -89,24 +83,6 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
   const progressWithoutDuplicates = progressArrayRemoveDuplicates(progressCopy);
   trainingDataCopy.days[dayToEditIndex].exercises[exerciseIndex].progress =
    progressWithoutDuplicates;
-  updateTraining(trainingDataCopy);
-  closeDialog();
- };
-
- const setNewComment = (newComment: string) => {
-  if (!trainingData || !newComment) return;
-  const trainingDataCopy = { ...trainingData };
-  const dayToEditIndex = trainingDataCopy.days.findIndex(
-   (day) => day.id === dayId
-  );
-  const exerciseIndex = trainingData.days[dayToEditIndex].exercises.findIndex(
-   (e) => e.id === exerciseId
-  );
-  const commentsCopy =
-   trainingDataCopy.days[dayToEditIndex].exercises[exerciseIndex].comments;
-  commentsCopy.push(newComment);
-  trainingDataCopy.days[dayToEditIndex].exercises[exerciseIndex].comments =
-   commentsCopy;
   updateTraining(trainingDataCopy);
   closeDialog();
  };

@@ -10,12 +10,9 @@ import { loginRequest } from '../auth/authConfig';
 export const SignInButton = () => {
  const { instance } = useMsal();
  const handleLogin = async () => {
-  await instance
-   .loginRedirect(loginRequest)
-   .then((v) => console.log(v))
-   .catch((e: any) => {
-    console.log(e);
-   });
+  await instance.loginRedirect(loginRequest).catch((e: any) => {
+   console.log(e);
+  });
  };
  return <Button onClick={handleLogin}>Sign in</Button>;
 };
@@ -27,7 +24,6 @@ export const SignOutButton = () => {
    .logoutRedirect({
     postLogoutRedirectUri: process.env.REACT_APP_REDIRECT_URI
    })
-   .then((v) => console.log(v))
    .catch((e: any) => {
     console.log(e);
    });
@@ -39,7 +35,6 @@ export const UserPage = () => {
  const navigate = useNavigate();
 
  const redirectTo = (path: string) => {
-  console.log(path);
   navigate(path);
  };
  return (

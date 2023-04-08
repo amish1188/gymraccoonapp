@@ -11,20 +11,15 @@ import './Comments.scss';
 
 interface CommentSectionProps {
  comments: string[];
- dayId: string;
  dayIndex: number;
  exerciseIndex: number;
- exerciseId: string;
  id: string;
 }
 
 const CommentSection = ({
  comments,
- dayId,
  dayIndex,
- exerciseIndex,
- exerciseId,
- id
+ exerciseIndex
 }: CommentSectionProps) => {
  const [showDialog, setShowDialog] = useState<boolean>(false);
  const [commentIndex, setCommentIndex] = useState<number>();
@@ -34,13 +29,10 @@ const CommentSection = ({
  const { mutate: deleteExerciseComment } = useDeleteComment();
 
  const openDialog = (value?: string, commentIndexValue?: number) => {
-  const isM = typeof commentIndexValue;
-
   value && setValueToAddOrUpdate(value);
-  const d = commentIndexValue!.toFixed(2);
-
-  setCommentIndex(+d);
-  console.log(d);
+  if (commentIndexValue !== undefined) {
+   setCommentIndex(+commentIndexValue.toFixed(2));
+  }
   setShowDialog(true);
  };
 
@@ -49,8 +41,6 @@ const CommentSection = ({
  };
 
  const addComment = (updatedComment: string, commentIndexD?: number) => {
-  console.log(commentIndexD);
-  console.log(valueToAddOrUpdate);
   const commentUpdate = {
    programId: '7E4D171A-B059-11ED-B99C-E1CF9FF5D58B',
    partitionKey: 'CB906C34-B06D-11ED-B750-BE393A933C10',
