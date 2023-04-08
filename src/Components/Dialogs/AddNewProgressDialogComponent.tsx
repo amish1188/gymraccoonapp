@@ -11,11 +11,13 @@ type AddNewProgressDialogComponentProps = {
  closeDialog: () => void;
  isDialogOpen: boolean;
  currentValue: number;
- dayId: number | undefined;
+ dayId: string | undefined;
  exerciseId: string | undefined;
  errorText: string;
  setNewProgressValue: (newValue: number) => void;
 };
+
+//
 
 const AddNewProgressDialogComponent = ({
  isDialogOpen,
