@@ -33,7 +33,7 @@ const Comment = ({
    {issShowEdit && (
     <div className='button-section-container'>
      <button className='button'>
-      <EditIcon onClick={openDialogWithIndex} />
+      <EditIcon sx={{ color: '#000' }} onClick={openDialogWithIndex} />
      </button>
      <button className='button'>
       <DeleteIcon onClick={() => deleteComment(commentIndex)} color='error' />

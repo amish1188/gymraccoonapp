@@ -61,6 +61,7 @@ const AddNewCommentDialog = ({
       helperText={isFormValid ? '' : errorText}
       id='new comment'
       multiline
+      fullWidth
       maxRows={8}
       value={value || ''}
      ></TextField>
