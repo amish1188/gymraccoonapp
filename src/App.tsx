@@ -41,7 +41,14 @@ const App = () => {
         </ProtectedRoute>
        }
       />
-      <Route path='current' element={<CurrentTraining />} />
+      <Route
+       path='current'
+       element={
+        <ProtectedRoute isAuth={isAuth}>
+         <CurrentTraining />
+        </ProtectedRoute>
+       }
+      />
       <Route path='*' element={<p>Not found</p>} />
      </Routes>
      <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
