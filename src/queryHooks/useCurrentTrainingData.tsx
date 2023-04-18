@@ -10,7 +10,7 @@ const API_URL = 'https://raccoongymapi.azurewebsites.net/';
 const getData = async ({ queryKey }: any) => {
  const currentTrainingId = queryKey[1];
  return await axios.post(
-  `${API_URL}Training/GetCurrentTraining`,
+  `${API_URL}WorkoutProgram/GetCurrentTraining`,
   {},
   { params: { currentTrainingId: currentTrainingId } }
  );
@@ -18,20 +18,20 @@ const getData = async ({ queryKey }: any) => {
 
 const updateTraining = async (trainingData: Training) => {
  return await axios.post(
-  `${API_URL}Training/UpdateCurrentTraining`,
+  `${API_URL}WorkoutProgram/UpdateCurrentTraining`,
   trainingData
  );
 };
 
 const addExerciseComment = async (commentUpdate: CommentUpdate) => {
  return await axios.post(
-  `${API_URL}Training/AddExerciseComment`,
+  `${API_URL}WorkoutProgram/AddExerciseComment`,
   commentUpdate
  );
 };
 
 const deleteExerciseComment = async (commentDelete: CommentDelete) => {
- return await axios.delete(`${API_URL}Training/DeleteExerciseComment`, {
+ return await axios.delete(`${API_URL}WorkoutProgram/DeleteExerciseComment`, {
   data: commentDelete
  });
 };
