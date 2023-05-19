@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import ExerciseAccordion from '../ExerciseAccordion';
 import { useState } from 'react';
-import { TrainingDay } from './Swiper';
+import { ProgramDay } from './Swiper';
 
 interface DaySlideProps {
  openDialog: (
@@ -10,7 +10,7 @@ interface DaySlideProps {
   dialogId: string,
   current?: number
  ) => void;
- day: TrainingDay;
+ day: ProgramDay;
  dayIndex: number;
 }
 

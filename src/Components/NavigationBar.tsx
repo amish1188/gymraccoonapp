@@ -1,13 +1,25 @@
-import { Box, IconButton, Toolbar } from '@mui/material';
+import { Box, IconButton, Menu, Toolbar } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import MenuLinks from './MenuLinks';
 
 const NavigationBar = () => {
  const navigate = useNavigate();
  const location = useLocation();
  const [locationTitle, setLocationTitle] = useState<string>('');
+
+ const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+ const open = Boolean(anchorEl);
+ const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  console.log('opened');
+  setAnchorEl(event.currentTarget);
+ };
+ const handleClose = () => {
+  setAnchorEl(null);
+ };
 
  const goBackHandler = () => {
   navigate(-1);
@@ -24,6 +36,9 @@ const NavigationBar = () => {
    case '/current':
     setLocationTitle('Current training');
     break;
+   case '/exercises':
+    setLocationTitle('Exercises');
+    break;
    default:
     setLocationTitle('Home');
   }
@@ -32,10 +47,9 @@ const NavigationBar = () => {
  return (
   <Box sx={{ flexGrow: 1 }}>
    <AppBar position='static'>
-    <Toolbar>
+    <Toolbar style={{ justifyContent: 'space-between' }}>
      {location.pathname !== '/' && (
       <IconButton
-       style={{ position: 'absolute', zIndex: '100' }}
        size='large'
        edge='start'
        color='inherit'
@@ -46,19 +60,34 @@ const NavigationBar = () => {
        <ArrowBackIosRoundedIcon />
       </IconButton>
      )}
-     <h3
-      style={{
-       position: 'absolute',
-       fontWeight: '500',
-       margin: 'auto',
-       left: '0',
-       width: '100%',
-       zIndex: '0',
-       textAlign: 'center'
-      }}
-     >
-      {locationTitle}
-     </h3>
+     <h3>{locationTitle}</h3>
+     <div>
+      <IconButton
+       size='medium'
+       color='inherit'
+       aria-label='open drawer'
+       sx={{ mr: 2 }}
+       onClick={handleClick}
+      >
+       <MenuIcon />
+      </IconButton>
+      <Menu
+       id='long-menu'
+       MenuListProps={{
+        'aria-labelledby': 'long-button'
+       }}
+       anchorEl={anchorEl}
+       open={open}
+       onClose={handleClose}
+       PaperProps={{
+        style: {
+         width: '20ch'
+        }
+       }}
+      >
+       <MenuLinks handleClose={handleClose} />
+      </Menu>
+     </div>
     </Toolbar>
    </AppBar>
   </Box>

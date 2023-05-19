@@ -8,6 +8,9 @@ import { Route, Routes } from 'react-router-dom';
 import CurrentTraining from './Pages/CurrentTraining';
 import ProtectedRoute from './Components/ProtectedRoute';
 import NavigationBar from './Components/NavigationBar';
+import ExerciseCategories from './Pages/Exercises/ExerciseCategories';
+import ExerciseList from './Pages/Exercises/ExerciseList';
+import ExerciseDetailedPage from './Pages/Exercises/ExerciseDetailedPage';
 
 const queryClient = new QueryClient({
  defaultOptions: {
@@ -27,6 +30,12 @@ const App = () => {
    <NavigationBar />
    <Routes>
     <Route path='/' element={<UserPage />} />
+    <Route path='exercises' element={<ExerciseCategories />} />
+    <Route path='exercises/:bodyPart' element={<ExerciseList />} />
+    <Route
+     path='exercises/:bodyPart/:subPart/:exercise'
+     element={<ExerciseDetailedPage />}
+    />
     <Route
      path='trainings'
      element={

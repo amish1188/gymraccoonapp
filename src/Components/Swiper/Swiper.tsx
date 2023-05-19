@@ -4,7 +4,7 @@ import './Slider.scss';
 import DaySlide from './DaySlide';
 import { useState } from 'react';
 import AddNewProgressDialogComponent from '../Dialogs/AddNewProgressDialogComponent';
-import { useUpdateTraining } from '../../queryHooks/useCurrentTrainingData';
+import { useUpdateProgram } from '../../queryHooks/useCurrentTrainingData';
 
 export interface Exercise {
  id: string;
@@ -15,21 +15,21 @@ export interface Exercise {
  comments: string[];
 }
 
-export interface TrainingDay {
+export interface ProgramDay {
  id: string;
  name: string;
  exercises: Exercise[];
 }
 
-export interface Training {
+export interface Program {
  id: string;
  userId: string;
  name?: string;
- days: TrainingDay[];
+ days: ProgramDay[];
 }
 
 export interface SwiperComponentProps {
- trainingData: Training | undefined;
+ trainingData: Program | undefined;
 }
 
 const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
@@ -40,7 +40,7 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
   useState<boolean>(false);
  const errorText = 'Cannot be empty or 0 or';
 
- const { mutate: updateTraining } = useUpdateTraining();
+ const { mutate: updateProgram } = useUpdateProgram();
 
  const openDialog = (
   dayId: string,
@@ -83,7 +83,7 @@ const SwiperComponent = ({ trainingData }: SwiperComponentProps) => {
   const progressWithoutDuplicates = progressArrayRemoveDuplicates(progressCopy);
   trainingDataCopy.days[dayToEditIndex].exercises[exerciseIndex].progress =
    progressWithoutDuplicates;
-  updateTraining(trainingDataCopy);
+  updateProgram(trainingDataCopy);
   closeDialog();
  };
 

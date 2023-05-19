@@ -1,25 +1,23 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Training } from '../Components/Swiper/Swiper';
+import { Program } from '../Components/Swiper/Swiper';
 import { CommentDelete } from '../DbModels/CommentDelete';
 import { CommentUpdate } from '../DbModels/CommentUpdate';
+import { API_URL } from './settings';
 
-const API_URL = 'https://raccoongymapi.azurewebsites.net/';
-// https://localhost:7121
-
-const getData = async ({ queryKey }: any) => {
- const currentTrainingId = queryKey[1];
+const getCurrentProgram = async ({ queryKey }: any) => {
+ const currentProgramId = queryKey[1];
  return await axios.post(
-  `${API_URL}WorkoutProgram/GetCurrentTraining`,
+  `${API_URL}WorkoutProgram/GetCurrentProgram`,
   {},
-  { params: { currentTrainingId: currentTrainingId } }
+  { params: { currentProgramId: currentProgramId } }
  );
 };
 
-const updateTraining = async (trainingData: Training) => {
+const updateProgram = async (trainingProgram: Program) => {
  return await axios.post(
-  `${API_URL}WorkoutProgram/UpdateCurrentTraining`,
-  trainingData
+  `${API_URL}WorkoutProgram/UpdateCurrentProgram`,
+  trainingProgram
  );
 };
 
@@ -36,11 +34,12 @@ const deleteExerciseComment = async (commentDelete: CommentDelete) => {
  });
 };
 
-export const useCurrentTrainingData = (currentTrainingId: string) => {
- return useQuery(['currentTraining', currentTrainingId], getData);
+export const useGetCurrentProgramData = (currentProgramId: string) => {
+ return useQuery(['currentProgram', currentProgramId], getCurrentProgram);
 };
 
-export const useUpdateTraining = () => useMutation(updateTraining);
+export const useUpdateProgram = () => useMutation(updateProgram);
+
 export const useAddExerciseComment = () => {
  const queryClient = useQueryClient();
  return useMutation({
@@ -53,6 +52,7 @@ export const useAddExerciseComment = () => {
   }
  });
 };
+
 export const useDeleteComment = () => {
  const queryClient = useQueryClient();
  return useMutation({
